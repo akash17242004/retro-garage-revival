@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout/Layout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User, Mail, Phone, Lock, UserPlus } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { useAuth } from '../context/AuthContext';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,16 @@ const Signup = () => {
     confirmPassword: '',
     agreeTerms: false
   });
+
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
+
+  // If already logged in, redirect to home
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -46,32 +57,45 @@ const Signup = () => {
     }
     
     // Here you would typically register the user with your backend
-    // For this demo, we'll just show a success toast
+    // For this demo, we'll just show a success toast and simulate signup
     
     console.log('Registration data:', formData);
     
-    toast({
-      title: "Registration Successful!",
-      description: "Your account has been created. You can now log in.",
+    // Create a new user
+    login({
+      id: Date.now().toString(),
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      about: '',
+      profilePicture: '/placeholder.svg'
     });
     
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      password: '',
-      confirmPassword: '',
-      agreeTerms: false
+    toast({
+      title: "Registration Successful!",
+      description: "Your account has been created. Welcome to M.S Services!",
     });
+    
+    // Navigate to homepage after signup
+    navigate('/');
   };
 
   const handleGoogleSignup = () => {
     // Simulate Google signup
-    toast({
-      title: "Google Signup",
-      description: "Google registration would be processed here.",
+    login({
+      id: Date.now().toString(),
+      name: 'Google User',
+      email: 'googleuser@example.com',
+      profilePicture: '/placeholder.svg'
     });
+    
+    toast({
+      title: "Google Signup Successful",
+      description: "Welcome to M.S Services!",
+    });
+    
+    // Navigate to homepage after signup
+    navigate('/');
   };
 
   return (

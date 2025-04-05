@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout/Layout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User, Lock, LogIn, ArrowRight } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,16 @@ const Login = () => {
     password: '',
     rememberMe: false
   });
+  
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
+
+  // If already logged in, redirect to home
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -24,30 +35,45 @@ const Login = () => {
     e.preventDefault();
     
     // Here you would typically authenticate the user against your backend
-    // For this demo, we'll just show a success toast
+    // For this demo, we'll just show a success toast and simulate login
     
     console.log('Login attempt:', formData);
     
-    // Simulate a successful login
+    // Simulate a successful login with a demo user
+    login({
+      id: '1',
+      name: 'Demo User',
+      email: formData.email,
+      phone: '',
+      about: 'I am a car enthusiast who loves classic Maruti vehicles.',
+      profilePicture: '/placeholder.svg'
+    });
+    
     toast({
       title: "Login Successful!",
       description: "Welcome back to M.S Services.",
     });
     
-    // Reset form
-    setFormData({
-      email: '',
-      password: '',
-      rememberMe: false
-    });
+    // Navigate to homepage after login
+    navigate('/');
   };
 
   const handleGoogleLogin = () => {
     // Simulate Google login
-    toast({
-      title: "Google Login",
-      description: "Google authentication would be processed here.",
+    login({
+      id: '2',
+      name: 'Google User',
+      email: 'googleuser@example.com',
+      profilePicture: '/placeholder.svg'
     });
+    
+    toast({
+      title: "Google Login Successful",
+      description: "Welcome to M.S Services!",
+    });
+    
+    // Navigate to homepage after login
+    navigate('/');
   };
 
   return (

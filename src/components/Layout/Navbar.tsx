@@ -1,10 +1,13 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, LogOut } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -18,7 +21,11 @@ const Navbar = () => {
             <img 
               src="/logo.png" 
               alt="M.S Services Logo" 
-              className="h-12 w-auto mr-2" 
+              className="h-12 w-auto mr-2"
+              onError={(e) => {
+                e.currentTarget.src = '/wrench-icon.png';
+                console.log('Fallback to wrench icon due to missing logo');
+              }}
             />
             <div>
               <h1 className="font-bebas text-2xl tracking-widest text-black">M.S SERVICES</h1>
@@ -31,10 +38,25 @@ const Navbar = () => {
             <Link to="/services" className="font-bebas text-lg tracking-wider text-black hover:text-retro-red transition">SERVICES</Link>
             <Link to="/booking" className="font-bebas text-lg tracking-wider text-black hover:text-retro-red transition">BOOK SERVICE</Link>
             <Link to="/contact" className="font-bebas text-lg tracking-wider text-black hover:text-retro-red transition">CONTACT</Link>
-            <Link to="/login" className="flex items-center bg-retro-red px-4 py-1 rounded-sm text-white font-bebas tracking-wider">
-              <User size={18} className="mr-1" />
-              LOGIN
-            </Link>
+            
+            {isAuthenticated ? (
+              <div className="flex items-center">
+                <Link to="/profile" className="flex items-center">
+                  <Avatar className="w-8 h-8 border-2 border-white">
+                    <AvatarImage src={user?.profilePicture || '/placeholder.svg'} alt={user?.name} />
+                    <AvatarFallback className="bg-retro-red text-white text-xs">
+                      {user?.name.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="font-special ml-2 text-black hover:text-retro-red">{user?.name.split(' ')[0]}</span>
+                </Link>
+              </div>
+            ) : (
+              <Link to="/login" className="flex items-center bg-retro-red px-4 py-1 rounded-sm text-white font-bebas tracking-wider">
+                <User size={18} className="mr-1" />
+                LOGIN
+              </Link>
+            )}
           </div>
           
           <button 
@@ -55,10 +77,25 @@ const Navbar = () => {
             <Link to="/services" className="font-bebas text-xl tracking-wider text-black hover:text-retro-red transition px-2 py-1" onClick={toggleMenu}>SERVICES</Link>
             <Link to="/booking" className="font-bebas text-xl tracking-wider text-black hover:text-retro-red transition px-2 py-1" onClick={toggleMenu}>BOOK SERVICE</Link>
             <Link to="/contact" className="font-bebas text-xl tracking-wider text-black hover:text-retro-red transition px-2 py-1" onClick={toggleMenu}>CONTACT</Link>
-            <Link to="/login" className="flex items-center bg-retro-red px-4 py-1 rounded-sm text-white font-bebas tracking-wider w-max" onClick={toggleMenu}>
-              <User size={18} className="mr-1" />
-              LOGIN
-            </Link>
+            
+            {isAuthenticated ? (
+              <>
+                <Link to="/profile" className="flex items-center px-2 py-1" onClick={toggleMenu}>
+                  <Avatar className="w-6 h-6 mr-2">
+                    <AvatarImage src={user?.profilePicture || '/placeholder.svg'} alt={user?.name} />
+                    <AvatarFallback className="bg-retro-red text-white text-xs">
+                      {user?.name.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="font-bebas tracking-wider text-black hover:text-retro-red">MY PROFILE</span>
+                </Link>
+              </>
+            ) : (
+              <Link to="/login" className="flex items-center bg-retro-red px-4 py-1 rounded-sm text-white font-bebas tracking-wider w-max" onClick={toggleMenu}>
+                <User size={18} className="mr-1" />
+                LOGIN
+              </Link>
+            )}
           </div>
         </div>
       )}

@@ -1,26 +1,37 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+
+import React from 'react';
+import Layout from '../components/Layout/Layout';
+import { Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
 const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
+    <Layout>
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-md mx-auto text-center">
+          <div className="bg-retro-darkGray inline-block p-6 rounded-sm mb-6">
+            <img src="/wrench-icon.png" alt="Wrench" className="w-24 h-24 mx-auto" />
+          </div>
+          
+          <h1 className="font-bebas text-5xl tracking-wider text-retro-red mb-4">
+            404
+          </h1>
+          <h2 className="font-bebas text-2xl tracking-wider text-retro-darkGray mb-4">
+            PAGE NOT FOUND
+          </h2>
+          
+          <p className="font-special text-retro-darkGray/70 mb-8">
+            The page you're looking for seems to have taken a wrong turn. 
+            Let's get you back on the road.
+          </p>
+          
+          <Link to="/" className="retro-button inline-flex items-center">
+            <ArrowLeft size={18} className="mr-2" />
+            Back to Homepage
+          </Link>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

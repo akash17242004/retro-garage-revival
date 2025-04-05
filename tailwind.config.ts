@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,20 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom retro colors
+				retro: {
+					mustard: '#E6B400',
+					red: '#C83E3D',
+					cream: '#F5F5DC',
+					silver: '#A8A9AD',
+					darkGray: '#333333',
+				},
+			},
+			fontFamily: {
+				'bebas': ['"Bebas Neue"', 'sans-serif'],
+				'special': ['"Special Elite"', 'cursive'],
+				'mono': ['monospace'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +98,20 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'spin-slow': {
+					'0%': { transform: 'rotate(0deg)' },
+					'100%': { transform: 'rotate(360deg)' },
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'spin-slow': 'spin-slow 3s linear infinite',
+			},
+			backgroundImage: {
+				'grunge-texture': "url('/grunge-texture.png')",
+				'metal-texture': "url('/metal-texture.png')",
 			}
 		}
 	},

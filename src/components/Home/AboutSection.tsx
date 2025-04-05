@@ -15,7 +15,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ features }) => {
           <div className="md:w-1/2">
             <h2 className="section-title">ABOUT M.S SERVICES</h2>
             <p className="font-special mb-4">
-              Since 1985, M.S Services has been providing quality car care to Maruti Suzuki owners in Nagpur. As an authorized service center, we combine old-school dedication with modern technology to keep your vehicle running smoothly.
+              Since 1999, M.S Services has been providing quality car care to Maruti Suzuki owners in Nagpur. As an authorized service center, we combine old-school dedication with modern technology to keep your vehicle running smoothly.
             </p>
             <p className="font-special mb-6">
               Our experienced technicians are factory-trained and use genuine Maruti Suzuki parts for all repairs and services, ensuring your car receives the best care possible.

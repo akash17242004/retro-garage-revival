@@ -11,7 +11,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center mb-4">
               <img 
-                src="/logo.png" 
+                src="C:\Users\User\Downloads\MSlogo.png" 
                 alt="M.S Services Logo" 
                 className="h-12 w-auto mr-2" 
               />

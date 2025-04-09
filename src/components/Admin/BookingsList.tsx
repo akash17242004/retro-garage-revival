@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { bookingService } from '../../services/bookingService';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { Check, X, Phone } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
@@ -14,18 +14,15 @@ const BookingsList = () => {
     loadBookings();
   }, []);
   
-  const loadBookings = () => {
-    const allBookings = bookingService.getAllBookings();
-    // Sort by date (newest first)
-    allBookings.sort((a: any, b: any) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+  const loadBookings = async () => {
+    setIsLoading(true);
+    const allBookings = await bookingService.getAllBookings();
     setBookings(allBookings);
     setIsLoading(false);
   };
 
-  const handleStatusChange = (bookingId: string, newStatus: 'confirmed' | 'cancelled') => {
-    const success = bookingService.updateBookingStatus(bookingId, newStatus);
+  const handleStatusChange = async (bookingId: string, newStatus: 'confirmed' | 'cancelled') => {
+    const success = await bookingService.updateBookingStatus(bookingId, newStatus);
     
     if (success) {
       toast({
@@ -70,8 +67,8 @@ const BookingsList = () => {
           {bookings.map((booking) => (
             <tr key={booking.id} className="hover:bg-gray-50">
               <td className="py-3 px-4 font-special text-sm">
-                <div>{booking.appointmentDate}</div>
-                <div className="text-retro-darkGray/70">{booking.appointmentTime}</div>
+                <div>{booking.appointment_date}</div>
+                <div className="text-retro-darkGray/70">{booking.appointment_time}</div>
               </td>
               <td className="py-3 px-4">
                 <div className="font-special text-sm">{booking.name}</div>
@@ -81,11 +78,11 @@ const BookingsList = () => {
                 </div>
               </td>
               <td className="py-3 px-4 font-special text-sm">
-                <div>{booking.carModel}</div>
-                <div className="text-xs text-retro-darkGray/70">{booking.registrationNumber}</div>
+                <div>{booking.car_model}</div>
+                <div className="text-xs text-retro-darkGray/70">{booking.registration_number}</div>
               </td>
               <td className="py-3 px-4 font-special text-sm">
-                {booking.serviceType}
+                {booking.service_type}
               </td>
               <td className="py-3 px-4">
                 <span className={`px-2 py-1 rounded-sm text-xs font-bebas
@@ -98,7 +95,7 @@ const BookingsList = () => {
               <td className="py-3 px-4">
                 <div className="flex space-x-2">
                   <button 
-                    className="p-1 bg-green-500 text-white rounded-sm hover:bg-green-600 transition-colors" 
+                    className="p-1 bg-green-500 text-white rounded-sm hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
                     title="Confirm"
                     onClick={() => handleStatusChange(booking.id, 'confirmed')}
                     disabled={booking.status === 'confirmed'}
@@ -106,7 +103,7 @@ const BookingsList = () => {
                     <Check size={16} />
                   </button>
                   <button 
-                    className="p-1 bg-red-500 text-white rounded-sm hover:bg-red-600 transition-colors"
+                    className="p-1 bg-red-500 text-white rounded-sm hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     title="Cancel"
                     onClick={() => handleStatusChange(booking.id, 'cancelled')}
                     disabled={booking.status === 'cancelled'}

@@ -8,7 +8,7 @@ const HeroSection: React.FC = () => {
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-black/40 z-10"></div>
       <img 
-        src="/hero-maruti.jpg" 
+        src="/lovable-uploads/hero-maruti.jpg" 
         alt="Classic Maruti Car" 
         className="w-full h-[70vh] object-cover object-center"
       />

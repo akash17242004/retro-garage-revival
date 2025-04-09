@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Wrench, Oil, Car, PaintBucket } from 'lucide-react';
+import { Wrench, DropletIcon, Car, PaintBucket, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ServiceCard from './ServiceCard';
 
@@ -13,7 +13,7 @@ const ServicesSection: React.FC = () => {
     },
     {
       title: 'Oil Change',
-      icon: <Oil size={32} className="text-retro-red" />,
+      icon: <DropletIcon size={32} className="text-retro-red" />,
       description: 'Regular and synthetic oil changes with filter replacement.'
     },
     {

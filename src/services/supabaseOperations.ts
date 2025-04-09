@@ -12,39 +12,39 @@ export const directTableOperations = {
   // Insert a booking
   insertBooking: async (bookingData: any) => {
     return supabase
-      .from('bookings' as never)
-      .insert(bookingData as never);
+      .from('bookings' as any)
+      .insert(bookingData as any);
   },
   
   // Get bookings by phone
   getBookingsByPhone: async (phone: string) => {
     return supabase
-      .from('bookings' as never)
-      .select('*' as never)
+      .from('bookings' as any)
+      .select('*' as any)
       .eq('phone', phone);
   },
   
   // Get user bookings
   getUserBookings: async (userId: string) => {
     return supabase
-      .from('bookings' as never)
-      .select('*' as never)
+      .from('bookings' as any)
+      .select('*' as any)
       .eq('user_id', userId);
   },
   
   // Get all bookings
   getAllBookings: async () => {
     return supabase
-      .from('bookings' as never)
-      .select('*' as never)
-      .order('created_at', { ascending: false } as never);
+      .from('bookings' as any)
+      .select('*' as any)
+      .order('created_at', { ascending: false } as any);
   },
   
   // Update booking status
   updateBookingStatus: async (bookingId: string, status: string) => {
     return supabase
-      .from('bookings' as never)
-      .update({ status } as never)
+      .from('bookings' as any)
+      .update({ status } as any)
       .eq('id', bookingId);
   }
 };

@@ -64,9 +64,8 @@ export const bookingService = {
   // Get all bookings for a specific phone number
   getBookingsByPhone: async (phone: string): Promise<Array<any>> => {
     try {
-      // Use generic type parameter with any
       const { data, error } = await supabase
-        .from<any>('bookings')
+        .from('bookings' as any)
         .select('*')
         .eq('phone', phone);
         
@@ -92,9 +91,8 @@ export const bookingService = {
         return [];
       }
       
-      // Use generic type parameter with any
       const { data, error } = await supabase
-        .from<any>('bookings')
+        .from('bookings' as any)
         .select('*')
         .eq('user_id', userId);
         
@@ -113,9 +111,8 @@ export const bookingService = {
   // Get all bookings (admin function)
   getAllBookings: async (): Promise<Array<any>> => {
     try {
-      // Use generic type parameter with any
       const { data, error } = await supabase
-        .from<any>('bookings')
+        .from('bookings' as any)
         .select('*')
         .order('created_at', { ascending: false });
         
@@ -134,10 +131,9 @@ export const bookingService = {
   // Update booking status
   updateBookingStatus: async (bookingId: string, status: 'confirmed' | 'cancelled'): Promise<boolean> => {
     try {
-      // Use generic type parameter with any
       const { error } = await supabase
-        .from<any>('bookings')
-        .update({ status })
+        .from('bookings' as any)
+        .update({ status } as any)
         .eq('id', bookingId);
       
       if (error) {

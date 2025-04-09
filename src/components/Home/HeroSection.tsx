@@ -8,9 +8,9 @@ const HeroSection: React.FC = () => {
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-black/40 z-10"></div>
       <img 
-        src="/hero-maruti.jpg" 
+        src="/lovable-uploads/87160e2d-0bf1-4ea2-afbd-7a62e18f78fe.jpg" 
         alt="Classic Maruti Car" 
-        className="w-full h-[60vh] object-cover object-center"
+        className="w-full h-[70vh] object-cover object-center"
       />
       <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-4">
         <h1 className="font-bebas text-4xl md:text-6xl lg:text-7xl text-white tracking-wider mb-2 drop-shadow-lg">
@@ -24,7 +24,7 @@ const HeroSection: React.FC = () => {
         </h2>
         <Link 
           to="/booking" 
-          className="retro-button text-lg px-8 py-3"
+          className="retro-button text-lg px-8 py-3 hover:scale-105 transition-transform"
         >
           Book a Service
         </Link>

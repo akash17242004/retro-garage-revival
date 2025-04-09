@@ -5,20 +5,30 @@ interface ServiceCardProps {
   title: string;
   icon: React.ReactNode;
   description: string;
+  imagePath?: string;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ title, icon, description }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ title, icon, description, imagePath }) => {
   return (
-    <div className="bg-white bg-opacity-5 p-6 rounded-sm hover:bg-opacity-10 transition-all border border-retro-silver/30 group">
-      <div className="flex justify-center mb-4">
-        {icon}
+    <div className="bg-white border-2 border-retro-red/20 rounded-sm overflow-hidden shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group">
+      {imagePath && (
+        <div className="h-40 bg-retro-darkGray overflow-hidden">
+          <img 
+            src={imagePath} 
+            alt={title} 
+            className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" 
+          />
+        </div>
+      )}
+      <div className="p-6">
+        <div className="flex items-center mb-4">
+          <div className="mr-3">
+            {icon}
+          </div>
+          <h3 className="font-bebas text-xl text-retro-darkGray tracking-wider">{title}</h3>
+        </div>
+        <p className="text-retro-darkGray/80 font-special text-sm">{description}</p>
       </div>
-      <h3 className="font-bebas text-xl tracking-wider text-retro-mustard text-center mb-3">
-        {title}
-      </h3>
-      <p className="font-special text-sm text-retro-cream/80 text-center">
-        {description}
-      </p>
     </div>
   );
 };

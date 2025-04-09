@@ -19,7 +19,7 @@ const Footer = () => {
             <p className="font-special text-sm mb-4">Providing vintage care for modern cars since establishment.</p>
             <div className="flex items-center mt-6">
               <img 
-                src="/maruti-suzuki-badge.png" 
+                src="/lovable-uploads/e6935061-5e92-48fb-b085-fbd1895c8747.png" 
                 alt="Official Maruti Suzuki Authorized" 
                 className="h-16 w-auto" 
               />

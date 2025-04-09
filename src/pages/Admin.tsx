@@ -8,8 +8,11 @@ import { Navigate } from 'react-router-dom';
 const Admin = () => {
   const { isAuthenticated, user } = useAuth();
   
-  // Simple admin check - in a real app, you'd use roles
-  const isAdmin = isAuthenticated && user?.email === "admin@msservices.com";
+  // Admin emails array - added the second admin email
+  const adminEmails = ["admin@msservices.com", "msservicesngp@gmail.com"];
+  
+  // Check if user is admin
+  const isAdmin = isAuthenticated && user?.email && adminEmails.includes(user.email);
   
   if (!isAuthenticated) {
     return <Navigate to="/login" />;

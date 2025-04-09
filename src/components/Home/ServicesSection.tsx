@@ -9,22 +9,26 @@ const ServicesSection: React.FC = () => {
     {
       title: 'Engine Service',
       icon: <Wrench size={32} className="text-retro-red" />,
-      description: 'Complete engine overhaul, tune-ups, and diagnostics.'
+      description: 'Complete engine overhaul, tune-ups, and diagnostics.',
+      imagePath: '/lovable-uploads/e71b0582-176d-491d-9132-73e7ff874848.png'
     },
     {
       title: 'Oil Change',
       icon: <DropletIcon size={32} className="text-retro-red" />,
-      description: 'Regular and synthetic oil changes with filter replacement.'
+      description: 'Regular and synthetic oil changes with filter replacement.',
+      imagePath: '/service-oil.png'
     },
     {
       title: 'Brake Service',
       icon: <Car size={32} className="text-retro-red" />,
-      description: 'Brake pad replacement, fluid check and disc restoration.'
+      description: 'Brake pad replacement, fluid check and disc restoration.',
+      imagePath: '/lovable-uploads/8fff7284-da08-4575-898c-4540738c95aa.png'
     },
     {
       title: 'Denting & Painting',
       icon: <PaintBucket size={32} className="text-retro-red" />,
-      description: 'Collision repair, scratch removal and fresh paint jobs.'
+      description: 'Collision repair, scratch removal and fresh paint jobs.',
+      imagePath: '/service-paint.png'
     }
   ];
 
@@ -40,12 +44,13 @@ const ServicesSection: React.FC = () => {
               title={service.title}
               icon={service.icon}
               description={service.description}
+              imagePath={service.imagePath}
             />
           ))}
         </div>
         
-        <div className="text-center mt-8">
-          <Link to="/services" className="retro-button inline-flex items-center">
+        <div className="text-center mt-10">
+          <Link to="/services" className="retro-button inline-flex items-center hover:scale-105 transition-transform">
             View All Services
             <ArrowRight size={16} className="ml-2" />
           </Link>

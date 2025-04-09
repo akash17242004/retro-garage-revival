@@ -64,5 +64,24 @@ export const bookingService = {
     } catch {
       return [];
     }
+  },
+
+  // Update booking status (new method)
+  updateBookingStatus: (bookingId: string, status: 'confirmed' | 'cancelled'): boolean => {
+    try {
+      const bookings = JSON.parse(localStorage.getItem('msServicesBookings') || '[]');
+      const updatedBookings = bookings.map((booking: any) => {
+        if (booking.id === bookingId) {
+          return { ...booking, status };
+        }
+        return booking;
+      });
+      
+      localStorage.setItem('msServicesBookings', JSON.stringify(updatedBookings));
+      return true;
+    } catch (error) {
+      console.error('Error updating booking status:', error);
+      return false;
+    }
   }
 };

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { bookingService } from '../../services/bookingService';
 import { format } from 'date-fns';
 import { Check, X, Phone } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 const BookingsList = () => {
   const [bookings, setBookings] = useState<any[]>([]);
@@ -10,18 +11,39 @@ const BookingsList = () => {
 
   useEffect(() => {
     // Load bookings
-    const loadBookings = () => {
-      const allBookings = bookingService.getAllBookings();
-      // Sort by date (newest first)
-      allBookings.sort((a: any, b: any) => 
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-      setBookings(allBookings);
-      setIsLoading(false);
-    };
-    
     loadBookings();
   }, []);
+  
+  const loadBookings = () => {
+    const allBookings = bookingService.getAllBookings();
+    // Sort by date (newest first)
+    allBookings.sort((a: any, b: any) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    setBookings(allBookings);
+    setIsLoading(false);
+  };
+
+  const handleStatusChange = (bookingId: string, newStatus: 'confirmed' | 'cancelled') => {
+    const success = bookingService.updateBookingStatus(bookingId, newStatus);
+    
+    if (success) {
+      toast({
+        title: `Booking ${newStatus}`,
+        description: `The booking has been ${newStatus} successfully.`,
+        variant: newStatus === 'confirmed' ? 'default' : 'destructive',
+      });
+      
+      // Refresh the bookings list
+      loadBookings();
+    } else {
+      toast({
+        title: "Error",
+        description: "Could not update the booking status.",
+        variant: "destructive",
+      });
+    }
+  };
 
   if (isLoading) {
     return <div className="text-center py-8">Loading bookings...</div>;
@@ -76,14 +98,18 @@ const BookingsList = () => {
               <td className="py-3 px-4">
                 <div className="flex space-x-2">
                   <button 
-                    className="p-1 bg-green-500 text-white rounded-sm" 
+                    className="p-1 bg-green-500 text-white rounded-sm hover:bg-green-600 transition-colors" 
                     title="Confirm"
+                    onClick={() => handleStatusChange(booking.id, 'confirmed')}
+                    disabled={booking.status === 'confirmed'}
                   >
                     <Check size={16} />
                   </button>
                   <button 
-                    className="p-1 bg-red-500 text-white rounded-sm"
+                    className="p-1 bg-red-500 text-white rounded-sm hover:bg-red-600 transition-colors"
                     title="Cancel"
+                    onClick={() => handleStatusChange(booking.id, 'cancelled')}
+                    disabled={booking.status === 'cancelled'}
                   >
                     <X size={16} />
                   </button>

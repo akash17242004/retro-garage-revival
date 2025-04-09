@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./context/AuthContext";
 import UserProfile from "./pages/UserProfile";
 import EditProfile from "./pages/EditProfile";
+import Admin from "./pages/Admin";
 
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => {
               <Route path="/signup" element={<Signup />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/edit-profile" element={<EditProfile />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </TooltipProvider>

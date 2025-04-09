@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Wrench, ArrowRight } from 'lucide-react';
+import { Wrench, Oil, Car, PaintBucket } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ServiceCard from './ServiceCard';
 
@@ -13,17 +13,17 @@ const ServicesSection: React.FC = () => {
     },
     {
       title: 'Oil Change',
-      icon: <img src="/service-oil.png" alt="Oil Change" className="w-8 h-8" />,
+      icon: <Oil size={32} className="text-retro-red" />,
       description: 'Regular and synthetic oil changes with filter replacement.'
     },
     {
       title: 'Brake Service',
-      icon: <img src="/service-brake.png" alt="Brake Service" className="w-8 h-8" />,
+      icon: <Car size={32} className="text-retro-red" />,
       description: 'Brake pad replacement, fluid check and disc restoration.'
     },
     {
       title: 'Denting & Painting',
-      icon: <img src="/service-paint.png" alt="Denting & Painting" className="w-8 h-8" />,
+      icon: <PaintBucket size={32} className="text-retro-red" />,
       description: 'Collision repair, scratch removal and fresh paint jobs.'
     }
   ];

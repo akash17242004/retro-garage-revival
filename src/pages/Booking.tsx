@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout/Layout';
-import { Calendar as CalendarIcon, Clock, Check } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Check, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -11,10 +10,12 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
+import { bookingService, BookingFormData } from '../services/bookingService';
 
 const Booking = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [timeSlot, setTimeSlot] = useState<string | undefined>(undefined);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -43,35 +44,64 @@ const Booking = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Here you would typically send the data to your backend or Google Sheet
-    // For this demo, we'll just show a success toast
+    if (!date || !timeSlot) {
+      toast({
+        title: "Missing Information",
+        description: "Please select both a date and time for your appointment.",
+        variant: "destructive"
+      });
+      return;
+    }
     
-    console.log('Form submitted:', {
-      ...formData,
-      appointmentDate: date ? format(date, 'PP') : null,
-      appointmentTime: timeSlot
-    });
+    setIsSubmitting(true);
     
-    toast({
-      title: "Booking Successful!",
-      description: `Your service has been scheduled for ${date ? format(date, 'PP') : ''} at ${timeSlot}. We'll contact you to confirm.`,
-    });
-    
-    // Reset form
-    setDate(undefined);
-    setTimeSlot(undefined);
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      carModel: '',
-      registrationNumber: '',
-      serviceType: '',
-      additionalInfo: ''
-    });
+    try {
+      const bookingData: BookingFormData = {
+        ...formData,
+        appointmentDate: format(date, 'yyyy-MM-dd'),
+        appointmentTime: timeSlot
+      };
+      
+      const response = await bookingService.submitBooking(bookingData);
+      
+      if (response.success) {
+        toast({
+          title: "Booking Successful!",
+          description: `Your service has been scheduled for ${format(date, 'PP')} at ${timeSlot}. We'll contact you to confirm.`,
+        });
+        
+        // Reset form
+        setDate(undefined);
+        setTimeSlot(undefined);
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          carModel: '',
+          registrationNumber: '',
+          serviceType: '',
+          additionalInfo: ''
+        });
+      } else {
+        toast({
+          title: "Booking Failed",
+          description: response.message,
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting booking:", error);
+      toast({
+        title: "Booking Error",
+        description: "An unexpected error occurred. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -314,10 +344,17 @@ const Booking = () => {
               <div className="md:col-span-2 mt-4">
                 <button
                   type="submit"
-                  className="retro-button w-full md:w-auto py-3 px-8 text-lg"
-                  disabled={!date || !timeSlot}
+                  className="retro-button w-full md:w-auto py-3 px-8 text-lg flex items-center justify-center disabled:opacity-70"
+                  disabled={!date || !timeSlot || isSubmitting}
                 >
-                  Book Appointment
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin mr-2" />
+                      Processing...
+                    </>
+                  ) : (
+                    'Book Appointment'
+                  )}
                 </button>
                 <p className="font-special text-xs text-retro-darkGray/70 mt-2">
                   * Required fields

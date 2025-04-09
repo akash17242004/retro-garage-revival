@@ -36,6 +36,12 @@ const Admin = () => {
         
         <div className="bg-white shadow-md rounded-sm p-6 mb-8">
           <h2 className="font-bebas text-2xl mb-4 text-retro-darkGray">Booking Management</h2>
+          <div className="mb-6 p-4 bg-retro-cream border-l-4 border-retro-mustard">
+            <p className="font-special text-sm">
+              <strong>Admin access:</strong> You are logged in as {user?.email}. 
+              You have full access to manage all service bookings.
+            </p>
+          </div>
           <BookingsList />
         </div>
       </div>

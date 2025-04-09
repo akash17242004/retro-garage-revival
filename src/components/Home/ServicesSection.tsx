@@ -22,7 +22,7 @@ const ServicesSection: React.FC = () => {
       title: 'Brake Service',
       icon: <Car size={32} className="text-retro-red" />,
       description: 'Brake pad replacement, fluid check and disc restoration.',
-      imagePath: '/lovable-uploads/8fff7284-da08-4575-898c-4540738c95aa.png'
+      imagePath: '/service-brake.png'
     },
     {
       title: 'Denting & Painting',

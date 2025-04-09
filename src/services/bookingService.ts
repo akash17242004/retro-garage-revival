@@ -19,21 +19,25 @@ export const bookingService = {
   // Submit a booking
   submitBooking: async (bookingData: BookingFormData): Promise<{ success: boolean; message: string }> => {
     try {
-      const { user } = await supabase.auth.getUser();
+      const { data: sessionData } = await supabase.auth.getSession();
+      const userId = sessionData.session?.user.id;
       
-      const { data, error } = await supabase.from('bookings').insert({
-        user_id: user?.id || null,
-        name: bookingData.name,
-        phone: bookingData.phone,
-        email: bookingData.email || null,
-        car_model: bookingData.carModel,
-        registration_number: bookingData.registrationNumber,
-        service_type: bookingData.serviceType,
-        appointment_date: bookingData.appointmentDate,
-        appointment_time: bookingData.appointmentTime,
-        additional_info: bookingData.additionalInfo || null,
-        status: 'pending'
-      });
+      // Use "from" with a type assertion to work with any table
+      const { data, error } = await supabase
+        .from('bookings' as any)
+        .insert({
+          user_id: userId || null,
+          name: bookingData.name,
+          phone: bookingData.phone,
+          email: bookingData.email || null,
+          car_model: bookingData.carModel,
+          registration_number: bookingData.registrationNumber,
+          service_type: bookingData.serviceType,
+          appointment_date: bookingData.appointmentDate,
+          appointment_time: bookingData.appointmentTime,
+          additional_info: bookingData.additionalInfo || null,
+          status: 'pending'
+        } as any);
       
       if (error) {
         console.error('Booking error:', error);
@@ -60,8 +64,8 @@ export const bookingService = {
   getBookingsByPhone: async (phone: string): Promise<Array<any>> => {
     try {
       const { data, error } = await supabase
-        .from('bookings')
-        .select('*')
+        .from('bookings' as any)
+        .select('*' as any)
         .eq('phone', phone);
         
       if (error) {
@@ -79,16 +83,17 @@ export const bookingService = {
   // Get bookings for the authenticated user
   getUserBookings: async (): Promise<Array<any>> => {
     try {
-      const { user } = await supabase.auth.getUser();
+      const { data: sessionData } = await supabase.auth.getSession();
+      const userId = sessionData.session?.user.id;
       
-      if (!user) {
+      if (!userId) {
         return [];
       }
       
       const { data, error } = await supabase
-        .from('bookings')
-        .select('*')
-        .eq('user_id', user.id);
+        .from('bookings' as any)
+        .select('*' as any)
+        .eq('user_id', userId);
         
       if (error) {
         console.error('Error fetching user bookings:', error);
@@ -106,9 +111,9 @@ export const bookingService = {
   getAllBookings: async (): Promise<Array<any>> => {
     try {
       const { data, error } = await supabase
-        .from('bookings')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from('bookings' as any)
+        .select('*' as any)
+        .order('created_at', { ascending: false } as any);
         
       if (error) {
         console.error('Error fetching all bookings:', error);
@@ -126,8 +131,8 @@ export const bookingService = {
   updateBookingStatus: async (bookingId: string, status: 'confirmed' | 'cancelled'): Promise<boolean> => {
     try {
       const { error } = await supabase
-        .from('bookings')
-        .update({ status })
+        .from('bookings' as any)
+        .update({ status } as any)
         .eq('id', bookingId);
       
       if (error) {

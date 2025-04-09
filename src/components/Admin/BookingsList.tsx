@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { bookingService } from '../../services/bookingService';
-import { format, parseISO } from 'date-fns';
 import { Check, X, Phone } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 

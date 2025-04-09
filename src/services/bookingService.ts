@@ -1,5 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
+import "./supabaseOperations"; // Import the operations extension
 
 // Types for booking service
 export interface BookingFormData {
@@ -23,7 +24,7 @@ export const bookingService = {
       const userId = sessionData.session?.user.id;
       
       // Use "from" with a type assertion to work with any table
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('bookings' as any)
         .insert({
           user_id: userId || null,
@@ -63,9 +64,10 @@ export const bookingService = {
   // Get all bookings for a specific phone number
   getBookingsByPhone: async (phone: string): Promise<Array<any>> => {
     try {
+      // Use generic type parameter with any
       const { data, error } = await supabase
-        .from('bookings' as any)
-        .select('*' as any)
+        .from<any>('bookings')
+        .select('*')
         .eq('phone', phone);
         
       if (error) {
@@ -90,9 +92,10 @@ export const bookingService = {
         return [];
       }
       
+      // Use generic type parameter with any
       const { data, error } = await supabase
-        .from('bookings' as any)
-        .select('*' as any)
+        .from<any>('bookings')
+        .select('*')
         .eq('user_id', userId);
         
       if (error) {
@@ -110,10 +113,11 @@ export const bookingService = {
   // Get all bookings (admin function)
   getAllBookings: async (): Promise<Array<any>> => {
     try {
+      // Use generic type parameter with any
       const { data, error } = await supabase
-        .from('bookings' as any)
-        .select('*' as any)
-        .order('created_at', { ascending: false } as any);
+        .from<any>('bookings')
+        .select('*')
+        .order('created_at', { ascending: false });
         
       if (error) {
         console.error('Error fetching all bookings:', error);
@@ -130,9 +134,10 @@ export const bookingService = {
   // Update booking status
   updateBookingStatus: async (bookingId: string, status: 'confirmed' | 'cancelled'): Promise<boolean> => {
     try {
+      // Use generic type parameter with any
       const { error } = await supabase
-        .from('bookings' as any)
-        .update({ status } as any)
+        .from<any>('bookings')
+        .update({ status })
         .eq('id', bookingId);
       
       if (error) {

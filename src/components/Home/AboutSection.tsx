@@ -39,8 +39,8 @@ const AboutSection: React.FC<AboutSectionProps> = ({ features }) => {
           <div className="md:w-1/2 mt-6 md:mt-0">
             <div className="retro-card transform rotate-1 max-w-md mx-auto">
               <img 
-                src="/workshop.jpg" 
-                alt="M.S Services Workshop" 
+                src="/lovable-uploads/7f4dcd3f-6c10-4808-b510-357deea721f3.png" 
+                alt="M.S Services Logo" 
                 className="w-full h-auto border-4 border-white shadow-lg"
               />
               <div className="absolute -bottom-4 -right-4 bg-retro-mustard px-4 py-1 font-bebas tracking-wider text-black rotate-[-2deg]">

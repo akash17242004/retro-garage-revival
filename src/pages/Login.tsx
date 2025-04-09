@@ -31,49 +31,63 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Here you would typically authenticate the user against your backend
-    // For this demo, we'll just show a success toast and simulate login
-    
-    console.log('Login attempt:', formData);
-    
-    // Simulate a successful login with a demo user
-    login({
-      id: '1',
-      name: 'Demo User',
-      email: formData.email,
-      phone: '',
-      about: 'I am a car enthusiast who loves classic Maruti vehicles.',
-      profilePicture: '/placeholder.svg'
-    });
-    
-    toast({
-      title: "Login Successful!",
-      description: "Welcome back to M.S Services.",
-    });
-    
-    // Navigate to homepage after login
-    navigate('/');
+    try {
+      // Simulate a successful login with a demo user
+      await login({
+        id: '1',
+        name: 'Demo User',
+        email: formData.email,
+        phone: '',
+        about: 'I am a car enthusiast who loves classic Maruti vehicles.',
+        profilePicture: '/placeholder.svg'
+      });
+      
+      toast({
+        title: "Login Successful!",
+        description: "Welcome back to M.S Services.",
+      });
+      
+      // Navigate to homepage after login
+      navigate('/');
+    } catch (error) {
+      console.error('Login failed:', error);
+      toast({
+        title: "Login Failed",
+        description: "Please check your credentials and try again.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const handleGoogleLogin = () => {
-    // Simulate Google login
-    login({
-      id: '2',
-      name: 'Google User',
-      email: 'googleuser@example.com',
-      profilePicture: '/placeholder.svg'
-    });
-    
-    toast({
-      title: "Google Login Successful",
-      description: "Welcome to M.S Services!",
-    });
-    
-    // Navigate to homepage after login
-    navigate('/');
+  const handleGoogleLogin = async () => {
+    try {
+      // Simulate Google login
+      await login({
+        id: '2',
+        name: 'Google User',
+        email: 'googleuser@example.com',
+        profilePicture: '/placeholder.svg'
+      });
+      
+      toast({
+        title: "Google Login Successful",
+        description: "Welcome to M.S Services!",
+      });
+      
+      // Navigate to homepage after login
+      navigate('/');
+    } catch (error) {
+      console.error('Google login failed:', error);
+      toast({
+        title: "Login Failed",
+        description: "Could not log in with Google. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

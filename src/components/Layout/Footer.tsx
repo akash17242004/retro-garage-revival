@@ -11,14 +11,10 @@ const Footer = () => {
           <div>
             <div className="flex items-center mb-4">
               <img 
-                src="C:\Users\User\Downloads\MSlogo.png" 
+                src="/lovable-uploads/7f4dcd3f-6c10-4808-b510-357deea721f3.png" 
                 alt="M.S Services Logo" 
-                className="h-12 w-auto mr-2" 
+                className="h-16 w-auto mr-2" 
               />
-              <div>
-                <h3 className="font-bebas text-2xl tracking-widest text-retro-cream">M.S SERVICES</h3>
-                <p className="text-xs font-special text-retro-silver -mt-1">Authorized Maruti Suzuki Service</p>
-              </div>
             </div>
             <p className="font-special text-sm mb-4">Providing vintage care for modern cars since establishment.</p>
             <div className="flex items-center mt-6">
